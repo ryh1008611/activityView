@@ -35,10 +35,12 @@ const actions = {
     return new Promise((resolve, reject) => {
       login(userInfo).then(response => {
         // 存储token值
-        console.log(response)
-        const { data } = response.data
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
+        // const { data } = response.data
+        console.log(response.data.token)
+        commit('SET_TOKEN', response.data.token)
+        setToken(response.data.token)
+        const hasToken = getToken()
+        console.log('token' + hasToken)
         resolve()
       }).catch(error => {
         reject(error)
@@ -50,13 +52,16 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
-        const { data } = response
-        console.log(response)
+        const data = response.data
         if (!data) {
           reject('Verification failed, please Login again.')
         }
 
-        const { name, avatar, introduction, roles } = data
+        // const { name, avatar, introduction, roles } = data
+        const name = data.name
+        const avatar = data.avatar
+        const introduction = data.introduction
+        const roles = data.roles
         // const roles = ['admin']
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
