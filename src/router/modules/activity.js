@@ -27,6 +27,23 @@ const activityRouter = {
         roles: ['ADMIN', 'TEACHER'],
         icon: 'people'
       }
+    },
+    {
+      path: 'show',
+      component: () => import('@/views/activity/show'),
+      name: 'show',
+      meta: { title: '活动信息',
+        icon: 'people'
+      },
+      hidden: true
+    },
+    {
+      path: 'create',
+      component: () => import('@/views/activity/create'),
+      name: 'create',
+      meta: { title: '活动申请',
+        icon: 'el-icon-plus'
+      }
     }
   ]
 }

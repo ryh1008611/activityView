@@ -15,3 +15,23 @@ export function getActivityUserInfo(query) {
     data: query
   })
 }
+export function delActivity(id) {
+  return request({
+    url: `/api/v1/activity/${id}`,
+    method: 'delete'
+  })
+}
+// show
+export function showActivity(id) {
+  return request({
+    url: `/api/v1/activity/${id}`,
+    method: 'get'
+  })
+}
+// 活动类型管理
+export function activityTypeList() {
+  return request({
+    url: '/api/v1/activityType',
+    method: 'get'
+  })
+}
