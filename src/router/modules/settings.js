@@ -16,7 +16,7 @@ const settingsRouter = {
       path: 'personal',
       component: () => import('@/views/Personal-Settings/index'),
       name: 'personal',
-      meta: { title: '修改个人信息', icon: 'peoples' }
+      meta: { title: '个人信息', icon: 'peoples' }
     },
     {
       path: 'passwords',

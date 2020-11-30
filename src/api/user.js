@@ -19,6 +19,13 @@ export function getInfo(token) {
   })
 }
 
+export function updateUserInfo(users) {
+  return request({
+    url: '/api/v1/users/update',
+    method: 'put',
+    data: users
+  })
+}
 export function logout() {
   return request({
     url: '/api/v1/logout',

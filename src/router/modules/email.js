@@ -15,17 +15,25 @@ const emailsRouter = {
   children: [
     {
       path: 'settingEmail',
-      component: () => import('@/views/activity/index'),
+      component: () => import('@/views/email/create'),
       name: 'settingEmail',
       meta: { title: '配置邮箱', icon: 'el-icon-setting' }
     },
     {
       path: 'PersonalEmail',
-      component: () => import('@/views/activity/userInfo'),
+      component: () => import('@/views/email/index'),
       name: 'PersonalEmail',
       meta: { title: '我的邮箱',
         roles: ['ADMIN', 'TEACHER'],
-        icon: 'el-icon-message-solid'
+        icon: 'email'
+      }
+    },
+    {
+      path: 'step',
+      component: () => import('@/views/email/step'),
+      name: 'step',
+      meta: { title: '获取授权码',
+        icon: 'el-icon-s-unfold'
       }
     }
   ]
