@@ -6,10 +6,10 @@
         <el-option v-for="item in options" :key="item.name" :label="item.name" :value="item.value" />
       </el-select>
       <!-- 是否已关联 -->
-      <el-button v-waves class="filter-item  ml-10" type="primary" icon="el-icon-search">
+      <el-button class="filter-item  ml-10" type="primary" icon="el-icon-search">
         搜索
       </el-button>
-      <el-button v-waves class="filter-item  ml-10" type="plain" icon="el-icon-refresh">
+      <el-button class="filter-item  ml-10" type="plain" icon="el-icon-refresh">
         重置
       </el-button>
     </div>

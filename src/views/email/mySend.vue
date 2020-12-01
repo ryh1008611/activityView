@@ -22,11 +22,6 @@
           <span>{{ row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="发送方" width="180px" align="center">
-        <template slot-scope="{row}">
-          <span>{{ row.launch }}</span>
-        </template>
-      </el-table-column>
       <el-table-column label="接收方" width="180px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.target }}</span>
@@ -47,9 +42,6 @@
           <el-button type="primary" size="mini" @click="mail_show(row)">
             查看信件
           </el-button>
-          <el-button type="primary" size="mini" @click="mail_reply(row)">
-            回复信件
-          </el-button>
           <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row)">
             删除
           </el-button>
@@ -58,20 +50,12 @@
     </el-table>
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.pageSize" @pagination="getList" />
     <!-- 弹窗 -->
-    <el-dialog title="我的邮件" :visible.sync="dialogShow">
-      <show-email v-if="someShow" :topics-prop="thisEmail" style="height:400px" />
+    <el-dialog title="我的邮件" :visible.sync="dialogMaterial" style="height:400px">
+      <!-- <div v-for="(item, index) in material" :key="item.name"> -->
+      <!-- <Material :topics-prop.sync="material[index]" /> -->
+      <!-- </div> -->
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogShow = false">
-          关闭
-        </el-button>
-      </div>
-    </el-dialog>
-    <el-dialog title="我的邮件" :visible.sync="dialogReply">
-      <div>
-        <send-email :aim="aimAdress" :dialog-reply="dialogReply" style="height:300px" @ChangeReply="dialogReply = false;getList()" />
-      </div>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogReply = false">
+        <el-button @click="dialogMaterial = false">
           关闭
         </el-button>
       </div>
@@ -83,13 +67,11 @@
 // eslint-disable-next-line no-unused-vars
 // import waves from '@/directive/waves'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-import sendEmail from '@/components/Email/send'
-import showEmail from '@/components/Email/show'
 import { delActivity } from '@/api/activity'
-import { getMyEmail } from '@/api/email'
+import { getMySend } from '@/api/email'
 export default {
   name: 'MyEmail',
-  components: { Pagination, sendEmail, showEmail },
+  components: { Pagination },
   data() {
     return {
       listQuery: {
@@ -101,9 +83,7 @@ export default {
       aimAdress: '',
       // 物资
       thisEmail: [],
-      someShow: true,
-      dialogReply: false,
-      dialogShow: false
+      dialogReply: false
     }
   },
   created() {
@@ -111,9 +91,8 @@ export default {
   },
   methods: {
     async getList() {
-      const res = await getMyEmail(this.listQuery)
+      const res = await getMySend(this.listQuery)
       if (res.code === 200) {
-        //   赋值
         this.EmailInfo = res.records.data
         this.total = res.records.total
         console.log(res)
@@ -148,20 +127,7 @@ export default {
     // 查看邮箱信息
     mail_show(row) {
       this.thisEmail = row
-      //   重新加载子组件
-      this.someShow = false
-      var _this = this
-      this.$nextTick(function() {
-        _this.someShow = true
-      })
-      //   关闭弹窗
-      this.dialogShow = true
       // this.dialogMaterial = true
-    },
-    // 回复信件
-    mail_reply(row) {
-      this.aimAdress = row.launch
-      this.dialogReply = true
     }
   }
 }
