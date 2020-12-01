@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="8" :offset="8">
         <h2 style="text-align:center">学生活动管理系统活动申请</h2>
-        <el-form ref="book-form" :model="activity" label-position="left" label-width="80px" :span="6" :offset="6">
+        <el-form ref="activity" :model="activity" label-position="left" label-width="80px" :span="6" :offset="6">
           <el-form-item label="活动标题" required>
             <el-input v-model="activity.title" onchange="value=value.replace(/[^\d]/g,'')" />
           </el-form-item>
@@ -59,19 +59,6 @@
                 >
                 <span class="el-upload-list__item-actions">
                   <span
-                    class="el-upload-list__item-preview"
-                    @click="handlePictureCardPreview(file)"
-                  >
-                    <i class="el-icon-zoom-in" />
-                  </span>
-                  <span
-                    v-if="!disabled"
-                    class="el-upload-list__item-delete"
-                    @click="handleDownload(file)"
-                  >
-                    <i class="el-icon-download" />
-                  </span>
-                  <span
                     v-if="!disabled"
                     class="el-upload-list__item-delete"
                     @click="handleRemove(file)"
@@ -83,7 +70,7 @@
             </el-upload>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">立即创建</el-button>
+            <el-button type="primary" @click="onSubmit">立即申请</el-button>
             <el-button @click="onCancel">取消</el-button>
           </el-form-item>
         </el-form>
@@ -96,7 +83,7 @@
 </template>
 
 <script>
-import { activityTypeList } from '@/api/activity'
+import { activityTypeList, addActivity } from '@/api/activity'
 import { updateFile } from '@/api/file'
 export default {
   name: 'Create',
@@ -107,16 +94,39 @@ export default {
       dialogImages: false,
       dialogImageUrl: '',
       disabled: false,
-      activityImg: null
+      images: []
     }
   },
   created() {
     this.setOptions()
-    this.activityImg = new FormData()
   },
   methods: {
-    onSubmit() {
+    async onSubmit() {
+      const self = this
+      const activityInfo = new FormData()
       // const self = this
+      const act = self.activity
+      activityInfo.append('title', act.title)
+      activityInfo.append('content', act.content)
+      activityInfo.append('type', act.type)
+      activityInfo.append('adress', act.adress)
+      activityInfo.append('start', '2010-11-11')
+      // activityInfo.append('end', JSON.stringify(act.end).slice(0, 11))
+      // activityInfo.append('images', self.images)
+      activityInfo.append('rule', self.rule)
+      activityInfo.append('prize', self.prize)
+      const res = await addActivity(self.activity)
+      if (res.code === 200) {
+        self.$message({
+          type: 'success',
+          message: res.msg
+        })
+      } else {
+        self.$message({
+          type: 'success',
+          message: res.msg
+        })
+      }
     },
     onCancel() {
     },
@@ -151,20 +161,26 @@ export default {
     uploadFile(file) {
       console.log(file)
     },
-    beforeActivityUpload(param) {
-      console.log(param.url)
+    async beforeActivityUpload(param) {
+      const self = this
       const img = new FormData()
-      img.append('file', param.url)
+      img.append('file', param.raw)
       // const res = await updateFile(img)
-      updateFile(img).then(res => {
-        // eslint-disable-next-line eqeqeq
-        if (res.code == 200) {
-          console.log(res.msg)
-        } else {
-          console.log(res.msg)
-        }
-      })
+      const res = await updateFile(img)
       // eslint-disable-next-line eqeqeq
+      if (res.code == 200) {
+        self.$message({
+          type: 'success',
+          message: res.msg
+        })
+        // 记录图片信息
+        self.images.push(res.data)
+      } else {
+        self.$message({
+          type: 'error',
+          message: res.msg
+        })
+      }
     }
   }
 }

@@ -50,12 +50,10 @@
     </el-table>
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.pageSize" @pagination="getList" />
     <!-- 弹窗 -->
-    <el-dialog title="我的邮件" :visible.sync="dialogMaterial" style="height:400px">
-      <!-- <div v-for="(item, index) in material" :key="item.name"> -->
-      <!-- <Material :topics-prop.sync="material[index]" /> -->
-      <!-- </div> -->
+    <el-dialog title="我的邮件" :visible.sync="dialogShow">
+      <show-email v-if="someShow" :topics-prop="thisEmail" style="height:400px" />
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogMaterial = false">
+        <el-button @click="dialogShow = false">
           关闭
         </el-button>
       </div>
@@ -69,9 +67,10 @@
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import { delActivity } from '@/api/activity'
 import { getMySend } from '@/api/email'
+import showEmail from '@/components/Email/show'
 export default {
   name: 'MyEmail',
-  components: { Pagination },
+  components: { Pagination, showEmail },
   data() {
     return {
       listQuery: {
@@ -83,7 +82,8 @@ export default {
       aimAdress: '',
       // 物资
       thisEmail: [],
-      dialogReply: false
+      dialogReply: false,
+      dialogShow: false
     }
   },
   created() {
@@ -127,6 +127,14 @@ export default {
     // 查看邮箱信息
     mail_show(row) {
       this.thisEmail = row
+      //   重新加载子组件
+      this.someShow = false
+      var _this = this
+      this.$nextTick(function() {
+        _this.someShow = true
+      })
+      //   关闭弹窗
+      this.dialogShow = true
       // this.dialogMaterial = true
     }
   }

@@ -35,3 +35,11 @@ export function activityTypeList() {
     method: 'get'
   })
 }
+
+export function addActivity(data) {
+  return request({
+    url: '/api/v1/activity',
+    method: 'post',
+    data: data
+  })
+}
