@@ -1,31 +1,39 @@
 <template>
   <div>
-    <div v-for="(item, index) in TopicsProp" :key="'sign_' + index">
-      <Sign :topics.sync="TopicsProp[index]" :is-ban="Ban" />
-      <p>-</p>
-    </div>
+    <el-col style="line-height:30px;font-size:18px" :span="4">
+      {{ TopicsProp.name }}：
+    </el-col>
+    <el-col :span="4">
+      <el-input
+        v-model="TopicsProp.pivot.num"
+        :disabled="isban"
+        class="inputCommonly"
+      />
+    </el-col>
+    <el-col :span="16">
+      <el-input-number v-model="TopicsProp.pivot.num" :disabled="isban" />
+    </el-col>
+    <br>
   </div>
 </template>
 
 <script>
-import Sign from './sign.vue'
 export default {
-  name: 'MaterialIndex',
-  components: { Sign },
+  name: 'MaterialSign',
   props: {
-    topicsProp: {
+    topics: {
       type: Object,
       default: () => {}
     },
-    ban: {
+    isBan: {
       type: Boolean,
       default: true
     }
   },
   data() {
     return {
-      Ban: this.ban,
-      TopicsProp: this.topicsProp
+      isban: this.isBan,
+      TopicsProp: this.topics
     }
   },
   watch: {

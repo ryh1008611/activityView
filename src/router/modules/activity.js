@@ -26,7 +26,8 @@ const activityRouter = {
       meta: { title: '查看用户',
         roles: ['ADMIN', 'TEACHER'],
         icon: 'people'
-      }
+      },
+      hidden: true
     },
     {
       path: 'show',

@@ -8,8 +8,8 @@ const informationRouter = {
   redirect: 'noRedirect',
   name: 'information',
   meta: {
-    title: '信息管理',
-    icon: 'el-icon-document',
+    title: '人员管理',
+    icon: 'peoples',
     roles: ['ADMIN', 'TEACHER', 'COMMUNITY']
   },
   children: [

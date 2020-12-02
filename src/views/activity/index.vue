@@ -55,7 +55,17 @@
           <el-tag :type="row.status == 1 ? 'success' : 'info'">{{ row.status == 0 ? '未审核' : row.status == 1 ?'上线中' : '已下架' }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="430" class-name="small-padding fixed-width">
+      <el-table-column label="物资" align="center" width="200" class-name="small-padding fixed-width">
+        <template slot-scope="{row}">
+          <el-button type="primary" size="mini" @click="material_show(row)">
+            查看物资
+          </el-button>
+          <el-button type="primary" size="mini" @click="material_apply(row)">
+            申请物资
+          </el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="信息" align="center" width="200" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="primary" size="mini" @click="Move_UserInfo(row)">
             参加人员
@@ -63,9 +73,10 @@
           <el-button type="primary" size="mini" @click="Move_Activity(row)">
             活动信息
           </el-button>
-          <el-button type="primary" size="mini" @click="material_show(row)">
-            查看物资
-          </el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center" width="200" class-name="small-padding fixed-width">
+        <template slot-scope="{row}">
           <el-button type="primary" size="mini">
             编辑
           </el-button>
@@ -78,9 +89,7 @@
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.pageSize" @pagination="getList" />
     <!-- 弹窗 -->
     <el-dialog title="物资信息" :visible.sync="dialogMaterial">
-      <div v-for="(item, index) in material" :key="item.name">
-        <Material :topics-prop.sync="material[index]" />
-      </div>
+      <Material :topics-prop.sync="material" />
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogMaterial = false">
           关闭
@@ -195,7 +204,8 @@ export default {
       } else {
         this.dialogMaterial = true
       }
-    }
+    },
+    material_apply(row) {}
   }
 }
 </script>

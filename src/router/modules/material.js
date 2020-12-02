@@ -17,13 +17,27 @@ const materialRouter = {
       path: 'index',
       component: () => import('@/views/material/index'),
       name: 'index',
-      meta: { title: '物资信息', icon: 'el-icon-s-claim' }
+      meta: { title: '物资管理', icon: 'el-icon-s-grid' },
+      roles: ['ADMIN', 'TEACHER']
     },
     {
       path: 'create',
-      component: () => import('@/views/material/index'),
+      component: () => import('@/views/material/examine'),
       name: 'create',
-      meta: { title: '物资信息', icon: 'el-icon-s-claim' }
+      meta: { title: '审核管理', icon: 'el-icon-s-claim' },
+      roles: ['ADMIN', 'TEACHER']
+    },
+    {
+      path: 'create',
+      component: () => import('@/views/material/create'),
+      name: 'create',
+      meta: { title: '物资申请', icon: 'el-icon-plus' }
+    },
+    {
+      path: 'myApply',
+      component: () => import('@/views/material/myApply'),
+      name: 'myApply',
+      meta: { title: '我的物资', icon: 'people' }
     }
   ]
 }
