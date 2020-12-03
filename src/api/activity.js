@@ -35,11 +35,23 @@ export function activityTypeList() {
     method: 'get'
   })
 }
+// 获得我申请的所有活动
+export function passActivityList(data) {
+  return request({
+    url: '/api/v1/activity',
+    method: 'get',
+    data: data
+  })
+}
 
+// 添加一个活动
 export function addActivity(data) {
   return request({
     url: '/api/v1/activity',
     method: 'post',
-    data: data
+    data: data,
+    headers: {
+      'Content-Type': 'application/json'
+    }
   })
 }

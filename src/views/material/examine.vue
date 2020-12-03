@@ -1,12 +1,20 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input placeholder="请输入物资名称" style="width: 200px;" class="filter-item ml-10" />
-      <!-- 是否已关联 -->
-      <el-button class="filter-item  ml-10" type="primary" icon="el-icon-search">
+      <el-input v-model="listQuery.search" placeholder="请输入活动名称" style="width: 200px;" class="filter-item ml-10" />
+      <span style="margin: 0 10px">审核状态:</span>
+      <el-select v-model="listQuery.status" placeholder="选择状态" style="width:120px">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.name"
+          :value="item.value"
+        />
+      </el-select>
+      <el-button class="filter-item  ml-10" type="primary" icon="el-icon-search" @click="getList()">
         搜索
       </el-button>
-      <el-button class="filter-item  ml-10" type="plain" icon="el-icon-refresh">
+      <el-button class="filter-item  ml-10" type="plain" icon="el-icon-refresh" @click="listQuery.status = null;listQuery.search = ''">
         重置
       </el-button>
     </div>
@@ -43,7 +51,7 @@
       </el-table-column>
       <el-table-column label="状态" width="150px" align="center">
         <template slot-scope="{row}">
-          <el-tag :type="row.status === 1 ?'success' : row.status === 2 ? 'danger' : 'info'">{{ row.status === 1 ?'通过' : row.status === 2 ? '未通过' : '未审核' }}</el-tag>
+          <el-tag :type="MaterisalStatus[row.apply_status]">{{ options[row.apply_status].name }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="审核" align="center" width="200" class-name="small-padding fixed-width">
@@ -53,6 +61,16 @@
           </el-button>
           <el-button size="mini" type="danger" @click="examine(row, 2)">
             不通过
+          </el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="赁归" align="center" width="200" class-name="small-padding fixed-width">
+        <template slot-scope="{row}">
+          <el-button type="success" size="mini" @click="examine(row, 3)">
+            领取
+          </el-button>
+          <el-button size="mini" type="warning" @click="examine(row, 4)">
+            归还
           </el-button>
         </template>
       </el-table-column>
@@ -74,7 +92,8 @@ export default {
     return {
       listQuery: {
         page: 1,
-        pageSize: 10
+        pageSize: 10,
+        status: null
       },
       MaterialInfo: [],
       total: 0,
@@ -96,8 +115,17 @@ export default {
         {
           'name': '不通过',
           'value': 2
+        },
+        {
+          'name': '已领取',
+          'value': 3
+        },
+        {
+          'name': '已归还',
+          'value': 4
         }
-      ]
+      ],
+      MaterisalStatus: ['info', 'success', 'danger', '', 'warning']
     }
   },
   created() {
@@ -134,7 +162,7 @@ export default {
             })
           } else {
             this.$message({
-              type: 'success',
+              type: 'error',
               message: res.msg
             })
           }

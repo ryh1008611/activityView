@@ -5,7 +5,7 @@
         <h2 style="text-align:center">学生活动管理系统活动申请</h2>
         <el-form ref="activity" :model="activity" label-position="left" label-width="80px" :span="6" :offset="6">
           <el-form-item label="活动标题" required>
-            <el-input v-model="activity.title" onchange="value=value.replace(/[^\d]/g,'')" />
+            <el-input v-model="activity.title" />
           </el-form-item>
           <el-form-item label="活动类型" required>
             <el-select v-model="activity.type" placeholder="请选择">
@@ -27,6 +27,7 @@
             <el-date-picker
               v-model="activity.start"
               type="date"
+              value-format="yyyy-MM-dd"
               placeholder="选择日期"
             />
           </el-form-item>
@@ -34,14 +35,26 @@
             <el-date-picker
               v-model="activity.end"
               type="date"
+              value-format="yyyy-MM-dd"
               placeholder="选择日期"
             />
           </el-form-item>
-          <el-form-item label="活动规则" required>
-            <el-input v-model="activity.rule" />
+          <!-- /// -->
+          <el-form-item
+            v-for="(r, index) in activity.rule"
+            :key="r.key"
+            :label="'规则' + Sequence[index]"
+          >
+            <el-input v-model="r.value" style="width:80%" />
+            <el-button type="success" icon="el-icon-plus" style="margin-left:10px" circle @click.prevent="activity.rule.push({value: '',key: Date.now()})" />
           </el-form-item>
-          <el-form-item label="活动奖品" required>
-            <el-input v-model="activity.prize" />
+          <el-form-item
+            v-for="(p, index) in activity.prize"
+            :key="p.key"
+            :label="'奖品' + Sequence[index]"
+          >
+            <el-input v-model="p.value" style="width:80%" />
+            <el-button type="success" icon="el-icon-plus" style="margin-left:10px" circle @click.prevent="activity.prize.push({value: '',key: Date.now()})" />
           </el-form-item>
           <el-form-item label="图片上传" required>
             <el-upload
@@ -89,12 +102,22 @@ export default {
   name: 'Create',
   data() {
     return {
-      activity: {},
+      activity: {
+        rule: [{
+          value: ''
+        }],
+        prize: [{
+          value: ''
+        }]
+      },
       Options: [],
       dialogImages: false,
       dialogImageUrl: '',
       disabled: false,
-      images: []
+      images: [],
+      rules: '',
+      prizes: '',
+      Sequence: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
     }
   },
   created() {
@@ -103,23 +126,32 @@ export default {
   methods: {
     async onSubmit() {
       const self = this
-      const activityInfo = new FormData()
-      // const self = this
+      // console.log(self.activity.domains.toString())
+      self.activity.rule.forEach(el => {
+        self.rules += el.value + '/'
+      })
+      self.activity.prize.forEach(el => {
+        self.prizes += el.value + '/'
+      })
       const act = self.activity
-      activityInfo.append('title', act.title)
-      activityInfo.append('content', act.content)
-      activityInfo.append('type', act.type)
-      activityInfo.append('adress', act.adress)
-      activityInfo.append('start', '2010-11-11')
-      // activityInfo.append('end', JSON.stringify(act.end).slice(0, 11))
-      // activityInfo.append('images', self.images)
-      activityInfo.append('rule', self.rule)
-      activityInfo.append('prize', self.prize)
-      const res = await addActivity(self.activity)
+      const data = {
+        'title': act.title,
+        'content': act.content,
+        'adress': act.adress,
+        'start': act.start,
+        'end': act.end,
+        'rule': self.rules,
+        'prize': self.prizes,
+        'images': self.images
+      }
+      const res = await addActivity(data)
       if (res.code === 200) {
         self.$message({
           type: 'success',
           message: res.msg
+        })
+        this.$router.push({
+          path: '/activity/activity'
         })
       } else {
         self.$message({

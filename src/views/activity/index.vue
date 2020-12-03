@@ -157,22 +157,34 @@ export default {
       const res = await delActivity(row.id)
       const self = this
       // eslint-disable-next-line eqeqeq
-      if (res.code == 200) {
-        self.getList()
-        this.$notify({
-          title: 'Success',
-          message: '删除成功',
-          type: 'success',
-          duration: 2000
+      this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // eslint-disable-next-line eqeqeq
+        if (res.code == 200) {
+          self.getList()
+          this.$notify({
+            title: 'Success',
+            message: '删除成功',
+            type: 'success',
+            duration: 2000
+          })
+        } else {
+          this.$notify({
+            title: 'error',
+            message: res.msg,
+            type: 'error',
+            duration: 2000
+          })
+        }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
         })
-      } else {
-        this.$notify({
-          title: 'error',
-          message: res.msg,
-          type: 'error',
-          duration: 2000
-        })
-      }
+      })
     },
     // 移动到userInfo
     Move_UserInfo(row) {
@@ -205,7 +217,11 @@ export default {
         this.dialogMaterial = true
       }
     },
-    material_apply(row) {}
+    material_apply(row) {
+      this.$router.push({
+        path: '/material/myApply'
+      })
+    }
   }
 }
 </script>

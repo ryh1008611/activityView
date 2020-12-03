@@ -34,6 +34,11 @@
           <span>{{ row.describe }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="归还类型" width="110px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ optionStatus[row.status].name }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" width="200" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="primary" size="mini" @click="dialogMaterial = true;operation = false; createMaterial = row">
@@ -55,13 +60,23 @@
         <el-form-item label="物资描述">
           <el-input v-model="createMaterial.describe" />
         </el-form-item>
+        <el-form-item label="归还类型">
+          <el-select v-model="createMaterial.status" placeholder="请选择">
+            <el-option
+              v-for="item in optionStatus"
+              :key="item.value"
+              :label="item.name"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button v-if="operation" @click="dialogMaterial = false;addMaterial()">
+        <el-button v-if="operation" type="primary" @click="dialogMaterial = false;addMaterial()">
           确定
         </el-button>
-        <el-button v-if="!operation" @click="dialogMaterial = false;updateMaterial()">
-          确定
+        <el-button v-if="!operation" type="primary" @click="dialogMaterial = false;updateMaterial()">
+          修改
         </el-button>
         <el-button @click="dialogMaterial = false;createMaterial = {}">
           关闭
@@ -91,7 +106,17 @@ export default {
       material: [],
       dialogMaterial: false,
       createMaterial: {},
-      operation: false
+      operation: false,
+      optionStatus: [
+        {
+          'name': '不需要归还',
+          'value': 0
+        },
+        {
+          'name': '需要归还',
+          'value': 1
+        }
+      ]
       // 搜索功能栏目
     }
   },

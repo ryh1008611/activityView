@@ -28,12 +28,6 @@ const materialRouter = {
       roles: ['ADMIN', 'TEACHER']
     },
     {
-      path: 'create',
-      component: () => import('@/views/material/create'),
-      name: 'create',
-      meta: { title: '物资申请', icon: 'el-icon-plus' }
-    },
-    {
       path: 'myApply',
       component: () => import('@/views/material/myApply'),
       name: 'myApply',

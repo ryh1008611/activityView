@@ -40,11 +40,36 @@ export function examineMaterialList(params) {
     params: params
   })
 }
+// 我的list
+export function myMaterialList(params) {
+  return request({
+    url: '/api/v1/activityMaterial/1',
+    method: 'get',
+    params: params
+  })
+}
 // 更改审核状态
 export function updateExamineStatus(id, status) {
   return request({
     url: `/api/v1/activityMaterial/${id}`,
     method: 'put',
-    params: { status: status }
+    params: { apply_status: status }
+  })
+}
+// 更改提交的材料信息
+export function updateMaterialApply(row) {
+  return request({
+    url: `/api/v1/activityMaterial/update/Info`,
+    method: 'post',
+    data: row
+  })
+}
+// 添加一个物资
+
+export function createMaterialApply(row) {
+  return request({
+    url: `/api/v1/activityMaterial`,
+    method: 'post',
+    data: row
   })
 }
