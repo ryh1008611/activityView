@@ -86,16 +86,26 @@
         style="width:100%;margin-bottom:30px;"
         @click.native.prevent="handleLogin"
       >登录</el-button>
+      <p style="color:#fff;cursor:pointer" @click="dialogRegister = true">还没账号?点我注册</p>
+      <el-dialog title="用户注册" :visible.sync="dialogRegister">
+        <user-register />
+        <div slot="footer" class="dialog-footer">
+          <el-button>取 消</el-button>
+          <el-button type="primary">确 定</el-button>
+        </div>
+      </el-dialog>
+      <!-- 用户注册 -->
     </el-form>
-
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
+import userRegister from '@/components/UserRegister'
 // import { login } from '@/api/user'
 export default {
   name: 'Login',
+  components: { userRegister },
   data() {
     // eslint-disable-next-line no-unused-vars
     const validateUsername = (rule, value, callback) => {
@@ -141,7 +151,9 @@ export default {
       loading: false,
       showDialog: false,
       redirect: undefined,
-      otherQuery: {}
+      otherQuery: {},
+      // 用户注册窗口
+      dialogRegister: false
     }
   },
   watch: {

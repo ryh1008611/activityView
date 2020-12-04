@@ -141,8 +141,11 @@ export default {
   },
   methods: {
     async getList() {
+      var start = Date.now()
       const res = await getActivityList(this.listQuery)
       if (res.code === 200) {
+        var millis = Date.now() - start
+        console.log(millis + 'ms')
         this.ActivityInfo = res.records.data
         this.total = res.records.total
         console.log(res)
