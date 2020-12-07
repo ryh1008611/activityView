@@ -10,15 +10,9 @@ const informationRouter = {
   meta: {
     title: '人员管理',
     icon: 'peoples',
-    roles: ['ADMIN', 'TEACHER', 'COMMUNITY']
+    roles: ['ADMIN', 'TEACHER']
   },
   children: [
-    {
-      path: 'activity',
-      component: () => import('@/views/information/activity-table'),
-      name: 'activity',
-      meta: { title: '活动管理', icon: 'el-icon-s-claim' }
-    },
     {
       path: 'users',
       component: () => import('@/views/information/user-table'),

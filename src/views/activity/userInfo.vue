@@ -46,7 +46,7 @@
         <template slot-scope="{row}">
           <div>
             <el-switch
-              v-model="row.pivot.status"
+              v-model="row.status"
               active-color="#13ce66"
               inactive-color="#ff4949"
               :active-value="1"

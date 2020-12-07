@@ -36,7 +36,7 @@ const actions = {
       login(userInfo).then(response => {
         // 存储token值
         // const { data } = response.data
-        console.log(response.data.token)
+        // eslint-disable-next-line eqeqeq
         commit('SET_TOKEN', response.data.token)
         setToken(response.data.token)
         const hasToken = getToken()

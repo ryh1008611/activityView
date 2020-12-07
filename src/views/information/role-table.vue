@@ -20,7 +20,7 @@
       highlight-current-row
       style="width: 100%;"
     >
-      <el-table-column label="ID" sortable="custom" align="center" width="80">
+      <el-table-column label="ID" prop="id" sortable="custom" align="center" width="80">
         <template slot-scope="{row}">
           <span>{{ row.id }}</span>
         </template>
@@ -40,27 +40,8 @@
           <span>{{ row.email }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="用户状态" align="center">
-        <template slot-scope="{row}">
-          <div>
-            <el-switch
-              v-model="row.status"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-              :active-value="0"
-              :inactive-value="1"
-              active-text="在线"
-              inactive-text="禁用"
-              @change="setUserState(row)"
-            />
-          </div>
-        </template>
-      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button type="primary" size="mini" @click="dialogRole = true;userId = row.id;dialogState = true">
-            设置权限
-          </el-button>
           <el-button type="primary" size="mini">
             编辑
           </el-button>
@@ -71,19 +52,10 @@
       </el-table-column>
     </el-table>
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.pageSize" @pagination="getList" />
-    <!-- 弹窗 -->
-    <el-dialog title="权限信息" :visible.sync="dialogRole">
-      <role-list v-if="dialogState" :user-id="userId" />
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogRole = false;dialogState = false">
-          关闭
-        </el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
-<script src="./js/user-table.js"></script>
+<script src="./js/role-table.js"></script>
 <style>
 .ml-10{
   margin-left: 10px;
