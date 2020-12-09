@@ -49,3 +49,11 @@ export function updateUserStatus(users) {
     data: users
   })
 }
+// 修改密码
+export function updatePassword(data) {
+  return request({
+    url: '/api/v1/users/update-password',
+    method: 'put',
+    data: { password: data }
+  })
+}

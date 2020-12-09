@@ -44,7 +44,6 @@ export default {
       if (res.code === 200) {
         // eslint-disable-next-line require-atomic-updates
         self.roleUserList = res.data
-
         self.roleList.forEach(el => {
           if (el.id === self.roleUserList.id) {
             el.$set('roleStatus', true)
@@ -52,6 +51,7 @@ export default {
             el.$set('roleStatus', false)
           }
         })
+        console.log(self.roleList)
       }
     }
   }
