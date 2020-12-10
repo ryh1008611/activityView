@@ -63,7 +63,7 @@
       </el-table-column>
       <el-table-column label="活动状态" class-name="status-col" width="100">
         <template slot-scope="{row}">
-          <el-tag :type="row.status == 1 ? 'success' : 'info'">{{ row.status == 0 ? '未审核' : row.status == 1 ?'上线中' : '已下架' }}</el-tag>
+          <el-tag :type="row.status == 1 ? 'success' : row.status == 2 ? 'danger' : 'info'">{{ row.status == 0 ? '未审核' : row.status == 1 ?'上线中' : row.status == 2 ? '不通过' : '已下架' }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="物资" align="center" width="200" class-name="small-padding fixed-width">
@@ -73,6 +73,19 @@
           </el-button>
           <el-button type="primary" size="mini" @click="material_apply(row)">
             申请物资
+          </el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="审核" align="center" width="200" class-name="small-padding fixed-width">
+        <template slot-scope="{row}">
+          <el-button type="primary" size="mini" @click="examine(row, 1)">
+            通过
+          </el-button>
+          <el-button size="mini" type="danger" @click="examine(row, 2)">
+            不通过
+          </el-button>
+          <el-button size="mini" type="info" @click="examine(row, 3)">
+            下架
           </el-button>
         </template>
       </el-table-column>
@@ -114,10 +127,10 @@
 // eslint-disable-next-line no-unused-vars
 // import waves from '@/directive/waves'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-import { getActivityList, delActivity } from '@/api/activity'
+import { getActivityList, delActivity, examine } from '@/api/activity'
 import Material from '@/components/material'
 export default {
-  name: 'Activity',
+  name: 'ActivityExamine',
   components: { Pagination, Material },
   data() {
     return {
@@ -137,12 +150,16 @@ export default {
           'value': 0
         },
         {
-          'name': '已上架',
+          'name': '通过',
           'value': 1
         },
         {
-          'name': '已下架',
+          'name': '不通过',
           'value': 2
+        },
+        {
+          'name': '已下架',
+          'value': 3
         }
       ]
     }
@@ -234,6 +251,25 @@ export default {
     material_apply(row) {
       this.$router.push({
         path: '/material/myApply'
+      })
+    },
+    examine(row, status) {
+      examine({
+        id: row.id,
+        status: status
+      }).then(res => {
+        if (res.code === 200) {
+          this.$message({
+            type: 'success',
+            message: res.msg
+          })
+          this.getList()
+        } else {
+          this.$message({
+            type: 'error',
+            message: '修改失败'
+          })
+        }
       })
     }
   }

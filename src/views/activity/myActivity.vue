@@ -117,7 +117,7 @@ import Pagination from '@/components/Pagination' // secondary package based on e
 import { getActivityList, delActivity } from '@/api/activity'
 import Material from '@/components/material'
 export default {
-  name: 'Activity',
+  name: 'ActivityExamine',
   components: { Pagination, Material },
   data() {
     return {

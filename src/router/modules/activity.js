@@ -45,6 +45,22 @@ const activityRouter = {
       meta: { title: '活动申请',
         icon: 'el-icon-plus'
       }
+    },
+    {
+      path: 'activityType',
+      component: () => import('@/views/activity/activityType'),
+      name: 'activityType',
+      meta: { title: '活动类型',
+        icon: 'el-icon-s-data'
+      }
+    },
+    {
+      path: 'ActivityExamine',
+      component: () => import('@/views/activity/examine'),
+      name: 'ActivityExamine',
+      meta: { title: '活动审核',
+        icon: 'el-icon-s-data'
+      }
     }
   ]
 }

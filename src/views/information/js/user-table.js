@@ -33,7 +33,9 @@ export default {
           'name': '已下架架',
           'value': 2
         }
-      ]
+      ],
+      userInfo: {},
+      dialogInformation: false
     }
   },
   created() {

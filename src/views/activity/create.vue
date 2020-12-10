@@ -165,7 +165,7 @@ export default {
     setOptions() {
       activityTypeList().then(res => {
         if (res.code === 200) {
-          this.Options = res.data
+          this.Options = res.data.data
           // console.log(res)
         } else {
           console.log('error', res.msg)
