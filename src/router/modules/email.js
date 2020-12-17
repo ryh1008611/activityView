@@ -44,6 +44,15 @@ const emailsRouter = {
       meta: { title: '获取授权码',
         icon: 'el-icon-s-unfold'
       }
+    },
+    {
+      path: 'sendingGroup',
+      component: () => import('@/views/email/sendingGroup'),
+      name: 'sendingGroup',
+      meta: { title: '群体发送',
+        icon: 'el-icon-s-unfold'
+      },
+      hidden: true
     }
   ]
 }

@@ -1,5 +1,21 @@
 <template>
   <div class="app-container">
+    <div class="filter-container">
+      <el-input v-model="listQuery.name" placeholder="请输入用户名臣" style="width: 200px;" class="filter-item ml-10" />
+      <!-- 是否已关联 -->
+      <el-button class="filter-item  ml-10" type="primary" icon="el-icon-search" @click="getList()">
+        搜索
+      </el-button>
+      <el-button class="filter-item  ml-10" type="plain" icon="el-icon-refresh" @click="listQuery.name = ''">
+        重置
+      </el-button>
+      <el-button class="filter-item  ml-10" type="primary" icon="el-icon-plus">
+        添加用户
+      </el-button>
+      <el-button class="filter-item  ml-10" type="primary" icon="el-icon-plus" @click="Move_SendingGroup()">
+        一键群发
+      </el-button>
+    </div>
     <el-table
       :data="ActivityUserInfo"
       border
@@ -114,6 +130,14 @@ export default {
     },
     setSignIn(row) {
 
+    },
+    Move_SendingGroup() {
+      this.$router.push({
+        path: '/email/sendingGroup',
+        query: {
+          activityId: this.$route.query.activityId
+        }
+      })
     }
   }
 }

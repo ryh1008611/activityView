@@ -9,6 +9,9 @@
       <el-button class="filter-item  ml-10" type="plain" icon="el-icon-refresh">
         重置
       </el-button>
+      <el-button class="filter-item  ml-10" type="primary" icon="el-icon-search" @click="dialogReply = true">
+        发邮件
+      </el-button>
     </div>
     <el-table
       :data="EmailInfo"
@@ -71,7 +74,7 @@
         <send-email :aim="aimAdress" :dialog-reply="dialogReply" style="height:300px" @ChangeReply="dialogReply = false;getList()" />
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogReply = false">
+        <el-button @click="dialogReply = false;">
           关闭
         </el-button>
       </div>

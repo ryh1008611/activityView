@@ -59,7 +59,7 @@ const activityRouter = {
       component: () => import('@/views/activity/examine'),
       name: 'ActivityExamine',
       meta: { title: '活动审核',
-        icon: 'el-icon-s-data'
+        icon: 'el-icon-cpu'
       }
     }
   ]

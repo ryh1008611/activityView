@@ -57,3 +57,12 @@ export function updatePassword(data) {
     data: { password: data }
   })
 }
+// 用户注册
+
+export function register(data) {
+  return request({
+    url: '/api/v1/users',
+    method: 'post',
+    data: data
+  })
+}

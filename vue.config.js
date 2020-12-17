@@ -38,7 +38,7 @@ module.exports = {
     },
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
-        target: `http://www.huige666.com`, // 修改后台接口地址
+        target: `http://127.0.0.1:8000`, // 修改后台接口地址
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''

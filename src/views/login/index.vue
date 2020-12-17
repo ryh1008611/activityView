@@ -88,11 +88,7 @@
       >登录</el-button>
       <p style="color:#fff;cursor:pointer" @click="dialogRegister = true">还没账号?点我注册</p>
       <el-dialog title="用户注册" :visible.sync="dialogRegister">
-        <user-register />
-        <div slot="footer" class="dialog-footer">
-          <el-button>取 消</el-button>
-          <el-button type="primary">确 定</el-button>
-        </div>
+        <user-register @ChangeReply="dialogRegister = false" />
       </el-dialog>
       <!-- 用户注册 -->
     </el-form>

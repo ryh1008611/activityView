@@ -92,3 +92,21 @@ export function deleteActivityType(id) {
     method: 'delete'
   })
 }
+
+// 更改轮播栏状态
+export function updateRotation(data) {
+  return request({
+    url: '/api/v1/activity/updateRotation',
+    method: 'post',
+    data
+  })
+}
+
+// 更改轮播栏状态
+export function updateInfomation(data) {
+  return request({
+    url: '/api/v1/activity/updateInfomation',
+    method: 'post',
+    data
+  })
+}

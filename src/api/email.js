@@ -26,6 +26,14 @@ export function sendEmail(data) {
   })
 }
 
+// 群发邮件
+export function sendUserGroup(data) {
+  return request({
+    url: '/api/v1/mail/sendUserGroup',
+    method: 'post',
+    data: data
+  })
+}
 // 个人发信箱
 
 export function getMySend(listQuery) {
@@ -39,5 +47,14 @@ export function getMyEmail(listQuery) {
   return request({
     url: `/api/v1/mail/Receive?pageSize=${listQuery.pageSize}&page=${listQuery.page}`,
     method: 'post'
+  })
+}
+
+// 发送验证码
+export function getCheckCode(data) {
+  return request({
+    url: '/api/v1/mail/sendCheckCode',
+    method: 'post',
+    data
   })
 }

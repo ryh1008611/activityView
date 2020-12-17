@@ -71,9 +71,38 @@
           <el-button type="primary" size="mini" @click="material_show(row)">
             查看物资
           </el-button>
-          <el-button type="primary" size="mini" @click="material_apply(row)">
-            申请物资
-          </el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="轮播栏" width="150px" align="center">
+        <template slot-scope="{row}">
+          <div>
+            <el-switch
+              v-model="row.isRotation"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              :active-value="1"
+              :inactive-value="0"
+              active-text="上架"
+              inactive-text="下架"
+              @change="setRotation(row)"
+            />
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="推荐栏" width="150px" align="center">
+        <template slot-scope="{row}">
+          <div>
+            <el-switch
+              v-model="row.isInformation"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              :active-value="1"
+              :inactive-value="0"
+              active-text="上架"
+              inactive-text="下架"
+              @change="setInformation(row)"
+            />
+          </div>
         </template>
       </el-table-column>
       <el-table-column label="审核" align="center" width="200" class-name="small-padding fixed-width">
@@ -127,7 +156,7 @@
 // eslint-disable-next-line no-unused-vars
 // import waves from '@/directive/waves'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-import { getActivityList, delActivity, examine } from '@/api/activity'
+import { getActivityList, delActivity, examine, updateRotation, updateInfomation } from '@/api/activity'
 import Material from '@/components/material'
 export default {
   name: 'ActivityExamine',
@@ -248,11 +277,13 @@ export default {
         this.dialogMaterial = true
       }
     },
+    // 跳转
     material_apply(row) {
       this.$router.push({
         path: '/material/myApply'
       })
     },
+    // 审核状态
     examine(row, status) {
       examine({
         id: row.id,
@@ -268,6 +299,44 @@ export default {
           this.$message({
             type: 'error',
             message: '修改失败'
+          })
+        }
+      })
+    },
+    // 更改推荐栏目
+    setInformation(row) {
+      updateInfomation({
+        'activityId': row.id,
+        'isInformation': row.isInformation
+      }).then(res => {
+        if (res.code === 200) {
+          this.$message({
+            type: 'success',
+            message: res.msg
+          })
+        } else {
+          this.$message({
+            type: 'error',
+            message: res.msg
+          })
+        }
+      })
+    },
+    // 更改轮播栏状态
+    setRotation(row) {
+      updateRotation({
+        'activityId': row.id,
+        'isRotation': row.isRotation
+      }).then(res => {
+        if (res.code === 200) {
+          this.$message({
+            type: 'success',
+            message: res.msg
+          })
+        } else {
+          this.$message({
+            type: 'error',
+            message: res.msg
           })
         }
       })
