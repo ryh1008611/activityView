@@ -17,15 +17,15 @@ const materialRouter = {
       path: 'index',
       component: () => import('@/views/material/index'),
       name: 'index',
-      meta: { title: '物资管理', icon: 'el-icon-s-grid' },
-      roles: ['ADMIN', 'TEACHER']
+      meta: { title: '物资管理', icon: 'el-icon-s-grid', roles: ['ADMIN', 'TEACHER'] }
+
     },
     {
       path: 'create',
       component: () => import('@/views/material/examine'),
       name: 'create',
-      meta: { title: '审核管理', icon: 'el-icon-s-claim' },
-      roles: ['ADMIN', 'TEACHER']
+      meta: { title: '审核管理', icon: 'el-icon-s-claim', roles: ['ADMIN', 'TEACHER'] }
+
     },
     {
       path: 'myApply',

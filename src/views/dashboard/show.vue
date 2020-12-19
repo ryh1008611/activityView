@@ -16,12 +16,12 @@
     <el-row>
       <el-col :span="12">
         <el-carousel indicator-position="outside">
-          <el-carousel-item v-for="item in imageList" :key="item.id">
+          <el-carousel-item v-for="item in rotationTopic" :key="item.activityId">
             <!-- <h3>{{ item }}</h3> -->
-            <el-image
+            <img
               style="width: 100%; height: 100%"
               :src="item.url"
-            />
+            >
           </el-carousel-item>
         </el-carousel>
       </el-col>
@@ -30,23 +30,48 @@
           <!-- <div slot="header" class="clearfix">
             <span>精彩活动</span>
           </div> -->
-          <div v-for="o in 7" :key="o" class="text item" style="width:100%;height:30px">
-            <p><span class="font-blue">{{ o + '.列表内容 ' + o }}</span></p>
-            <!-- <p style="float:right"><span class="font-blue">2020-12-12</span></p> -->
-          </div>
+
+          <el-table
+            :data="infomationTopic"
+            style="width: 100%;margin-top:-20px;"
+            size="mini"
+          >
+            <el-table-column
+              prop="date"
+              label="序号"
+              width="50"
+            >
+              <template scope="row">
+                {{ row.$index + 1 }}
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="title"
+              label="活动名称"
+            >
+              <template scope="{row}">
+                <span class="pointer" @click="Move_activity(row.id)">{{ row.title }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="start"
+              label="开始时间"
+              width="100"
+            />
+          </el-table>
         </el-card>
       </el-col>
     </el-row>
     <el-divider><i class="el-icon-loading" style="font-size:40px;color:#67C23A" /><i class="el-icon-loading" style="font-size:40px;color:#E6A23C" /><i class="el-icon-loading" style="font-size:40px;color:#F56C6C" /></el-divider>
     <el-card>
       <el-row>
-        <el-card v-for="o in 10" :key="o" style="width:300px;float:left;margin:10px" :body-style="{ padding: '0px' }">
-          <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
-          <div style="padding: 14px;">
-            <span>好吃的汉堡</span>
+        <el-card v-for="o in onlineList" :key="o.id" style="width:300px;float:left;margin:10px" :body-style="{ padding: '0px' }">
+          <img :src="o.url" class="image">
+          <div style="padding: 14px;margin-top:-20px">
+            <p><span style="font-size:14px">活动名称：</span><time class="time">{{ o.title }}</time></p>
             <div class="bottom clearfix">
-              <time class="time">2012-10-12</time>
-              <el-button type="text" class="button">操作按钮</el-button>
+              <p><span style="font-size:14px">开始时间：</span><time class="time">{{ o.start }}</time></p>
+              <el-button type="text" class="button" @click="Move_activity(o.id)">点击报名</el-button>
             </div>
           </div>
         </el-card>
@@ -57,6 +82,7 @@
 </template>
 
 <script>
+import { infomationList, rotationList, getActivityOnlineList } from '@/api/activity'
 export default {
   data() {
     return {
@@ -77,17 +103,65 @@ export default {
           id: 4,
           url: '/images/show/4.jpg'
         }
-      ]
+      ],
+      // 咨询栏
+      infomationTopic: {},
+      // 导航栏
+      rotationTopic: {},
+      // 推荐栏
+      onlineList: {},
+      // 查询列表
+      searchList: {
+        page: 1,
+        pageSize: 10,
+        title: null,
+        adress: null,
+        start: null
+      }
     }
   },
   created() {
-
+    this.getRotationList()
+    this.getInfomationList()
+    this.getActivityOnlineList()
   },
   mounted() {
 
   },
   methods: {
-
+    // 咨询栏目
+    getInfomationList() {
+      infomationList().then(res => {
+        if (res.code === 200) {
+          this.infomationTopic = res.data.data
+        }
+      })
+    },
+    // 轮播栏目
+    getRotationList() {
+      rotationList().then(res => {
+        if (res.code === 200) {
+          this.rotationTopic = res.data
+          console.log(this.rotationTopic[0])
+        }
+      })
+    },
+    // 推荐活动栏目
+    getActivityOnlineList() {
+      getActivityOnlineList(this.searchList).then(res => {
+        if (res.code === 200) {
+          this.onlineList = res.data.data
+        }
+      })
+    },
+    Move_activity(row) {
+      this.$router.push({
+        path: '/activity/show',
+        query: {
+          activityId: row
+        }
+      })
+    }
   }
 }
 </script>
@@ -123,6 +197,10 @@ export default {
   .image{
       width: 100%;
       height: 300px
+  }
+  /* 手 */
+  .pointer{
+    cursor: pointer;
   }
 </style>
 <style scoped lang="less">

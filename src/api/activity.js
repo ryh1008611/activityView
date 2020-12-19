@@ -110,3 +110,27 @@ export function updateInfomation(data) {
     data
   })
 }
+
+export function infomationList(params) {
+  return request({
+    url: '/api/v1/activity-query/infomationList',
+    method: 'get',
+    params
+  })
+}
+export function rotationList(params) {
+  return request({
+    url: '/api/v1/activity-query/rotationList',
+    method: 'get',
+    params
+  })
+}
+// 获得上线活动列表
+
+export function getActivityOnlineList(params) {
+  return request({
+    url: '/api/v1/activity-query/getActivityOnlineList',
+    method: 'get',
+    params
+  })
+}

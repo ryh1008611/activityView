@@ -24,7 +24,6 @@ const activityRouter = {
       component: () => import('@/views/activity/userInfo'),
       name: 'userInfo',
       meta: { title: '查看用户',
-        roles: ['ADMIN', 'TEACHER'],
         icon: 'people'
       },
       hidden: true
@@ -51,6 +50,7 @@ const activityRouter = {
       component: () => import('@/views/activity/activityType'),
       name: 'activityType',
       meta: { title: '活动类型',
+        roles: ['ADMIN', 'TEACHER'],
         icon: 'el-icon-s-data'
       }
     },
@@ -59,6 +59,7 @@ const activityRouter = {
       component: () => import('@/views/activity/examine'),
       name: 'ActivityExamine',
       meta: { title: '活动审核',
+        roles: ['ADMIN', 'TEACHER'],
         icon: 'el-icon-cpu'
       }
     }
