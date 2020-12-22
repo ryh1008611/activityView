@@ -12,6 +12,9 @@
       <el-button class="filter-item  ml-10" type="plain" icon="el-icon-refresh">
         重置
       </el-button>
+      <el-button class="filter-item  ml-10" type="primary" icon="el-icon-plus" @click="Move_SendingGroup()">
+        一键群发
+      </el-button>
     </div>
     <el-table
       :data="ActivityInfo"
@@ -25,12 +28,12 @@
           <span>{{ row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="用户名" align="center">
+      <el-table-column label="用户名" align="center" width="80">
         <template slot-scope="{row}">
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登录账号" align="center">
+      <el-table-column label="登录账号" align="center" width="120">
         <template slot-scope="{row}">
           <span>{{ row.username }}</span>
         </template>
@@ -40,12 +43,12 @@
           <el-tag v-for="(item, index) in row.roles" :key="'tag_' + index">{{ item }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="邮箱" align="center">
+      <el-table-column label="邮箱" align="center" width="140">
         <template slot-scope="{row}">
           <span>{{ row.email }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="用户状态" align="center">
+      <el-table-column label="用户状态" align="center" width="140">
         <template slot-scope="{row}">
           <div>
             <el-switch

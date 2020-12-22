@@ -76,7 +76,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button type="primary" size="mini">
+          <el-button type="primary" size="mini" @click="dialogReply = true;aimAdress = row.email">
             发送邮件
           </el-button>
           <el-button type="primary" size="mini">
@@ -89,6 +89,17 @@
       </el-table-column>
     </el-table>
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.pageSize" @pagination="getList" />
+    <!-- 弹窗 -->
+    <el-dialog title="我的邮件" :visible.sync="dialogReply">
+      <div>
+        <send-email :aim="aimAdress" :dialog-reply="dialogReply" style="height:300px" @ChangeReply="dialogReply = false;" />
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogReply = false;">
+          关闭
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -97,9 +108,11 @@
 // import waves from '@/directive/waves'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import { getActivityUserInfo } from '@/api/activity'
+import sendEmail from '@/components/Email/send'
+import { signIn } from '@/api/join'
 export default {
   name: 'Activity',
-  components: { Pagination },
+  components: { Pagination, sendEmail },
   data() {
     return {
       listQuery: {
@@ -108,7 +121,10 @@ export default {
         pageSize: 10
       },
       ActivityUserInfo: [],
-      total: 0
+      total: 0,
+      // 邮箱发送控制按钮
+      dialogReply: false,
+      aimAdress: ''
     }
   },
   created() {
@@ -129,7 +145,22 @@ export default {
       }
     },
     setSignIn(row) {
-
+      signIn({
+        id: row.id,
+        state: row.status
+      }).then(res => {
+        if (res.code === 200) {
+          this.$message({
+            type: 'success',
+            message: res.msg
+          })
+        } else {
+          this.$message({
+            type: 'error',
+            message: res.msg
+          })
+        }
+      })
     },
     Move_SendingGroup() {
       this.$router.push({

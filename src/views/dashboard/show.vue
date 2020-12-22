@@ -9,9 +9,9 @@
       active-text-color="#ffd04b"
     >
       <el-menu-item index="1">首页</el-menu-item>
-      <el-menu-item index="3">活动查询</el-menu-item>
-      <el-menu-item index="4"><a>我的活动</a></el-menu-item>
-      <el-menu-item index="4"><a>报名流程</a></el-menu-item>
+      <el-menu-item index="2"><router-link to="/activity/ActivitySearch">活动查询</router-link></el-menu-item>
+      <el-menu-item index="3"><router-link to="/activity/ActivityMy">我的活动</router-link></el-menu-item>
+      <el-menu-item index="4"><router-link to="/activity/process">报名流程</router-link></el-menu-item>
     </el-menu>
     <el-row>
       <el-col :span="12">
@@ -41,7 +41,7 @@
               label="序号"
               width="50"
             >
-              <template scope="row">
+              <template slot-scope="row">
                 {{ row.$index + 1 }}
               </template>
             </el-table-column>
@@ -49,7 +49,7 @@
               prop="title"
               label="活动名称"
             >
-              <template scope="{row}">
+              <template slot-scope="{row}">
                 <span class="pointer" @click="Move_activity(row.id)">{{ row.title }}</span>
               </template>
             </el-table-column>

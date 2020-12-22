@@ -66,3 +66,12 @@ export function register(data) {
     data: data
   })
 }
+
+// 获得所有的用户
+
+export function getAllUser() {
+  return request({
+    url: '/api/v1/user-info/list',
+    method: 'get'
+  })
+}

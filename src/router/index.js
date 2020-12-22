@@ -72,7 +72,7 @@ export const asyncRoutes = [
   {
     path: '/icon',
     component: Layout,
-    hidden: true,
+    hidden: false,
     children: [
       {
         path: 'index',

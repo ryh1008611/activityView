@@ -60,6 +60,7 @@
 <script>
 import { getActivityUserInfo } from '@/api/activity'
 import { sendUserGroup } from '@/api/email'
+import { getAllUser } from '@/api/user'
 export default {
   name: 'Create',
   data() {
@@ -83,18 +84,32 @@ export default {
   methods: {
     async getList() {
       const self = this
-      const res = await getActivityUserInfo({
-        activityId: self.activityId
-      })
-      if (res.code === 200) {
-        // self.userInfoList = res.data
-        res.data.forEach(el => {
-          self.userInfoList.push({
-            id: el.id,
-            key: el.id,
-            label: el.name
-          })
+      if (this.activityId) {
+        const res = await getActivityUserInfo({
+          activityId: self.activityId
         })
+        if (res.code === 200) {
+        // self.userInfoList = res.data
+          res.data.forEach(el => {
+            self.userInfoList.push({
+              id: el.id,
+              key: el.id,
+              label: el.name
+            })
+          })
+        }
+      } else {
+        const res = await getAllUser()
+        if (res.code === 200) {
+        // self.userInfoList = res.data
+          res.records.forEach(el => {
+            self.userInfoList.push({
+              id: el.id,
+              key: el.id,
+              label: el.name
+            })
+          })
+        }
       }
     },
     // 关掉便签

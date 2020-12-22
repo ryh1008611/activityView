@@ -62,6 +62,31 @@ const activityRouter = {
         roles: ['ADMIN', 'TEACHER'],
         icon: 'el-icon-cpu'
       }
+    },
+    {
+      path: 'process',
+      component: () => import('@/views/dashboard/home/process'),
+      name: 'process',
+      meta: { title: '活动流程',
+        icon: 'el-icon-cpu'
+      },
+      hidden: true
+    },
+    {
+      path: 'ActivitySearch',
+      component: () => import('@/views/activity/search'),
+      name: 'ActivitySearch',
+      meta: { title: '活动查询',
+        icon: 'eye-open'
+      }
+    },
+    {
+      path: 'ActivityMy',
+      component: () => import('@/views/activity/me'),
+      name: 'ActivityMy',
+      meta: { title: '我的活动',
+        icon: 'skill'
+      }
     }
   ]
 }

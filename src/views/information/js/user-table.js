@@ -144,6 +144,11 @@ export default {
       this.$router.push({
         path: '/material/myApply'
       })
+    },
+    Move_SendingGroup() {
+      this.$router.push({
+        path: '/email/sendingGroup'
+      })
     }
   }
 }
